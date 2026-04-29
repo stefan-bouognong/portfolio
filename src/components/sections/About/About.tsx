@@ -45,7 +45,7 @@ const About = () => {
         </svg>
       ),
       title: 'Design UI/UX',
-      description: 'Création d\'interfaces intuitives et esthétiques'
+      description: ' Création d\'interfaces intuitives et esthétiques'
     },
     {
       icon: (
