@@ -105,28 +105,55 @@
   }
   
   /* Bouton CV */
+  .about__cv-group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-md);
+  }
+
   .about__cv-btn {
     display: inline-flex;
     align-items: center;
-    gap: var(--spacing-sm);
-    padding: var(--spacing-sm) var(--spacing-lg);
+    gap: var(--spacing-xs);
+    padding: 0.75rem 1.25rem;
     background: var(--primary);
     color: #ffffff;
+    font-size: var(--font-size-sm);
     font-weight: 600;
     border-radius: var(--border-radius);
+    text-decoration: none;
     transition: all var(--transition-base);
-    margin-top: var(--spacing-md);
+    box-shadow: 0 4px 14px rgba(59, 130, 246, 0.25);
   }
   
   .about__cv-btn:hover {
     background: var(--primary-dark);
     transform: translateY(-3px);
     box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
+    color: #ffffff;
+  }
+
+  .about__cv-btn--secondary {
+    background: transparent;
+    color: var(--primary);
+    border: 2px solid var(--primary);
+    box-shadow: none;
+  }
+
+  .about__cv-btn--secondary:hover {
+    background: var(--primary);
+    color: #ffffff;
+    border-color: var(--primary);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
   }
   
   .about__cv-btn svg {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
   }
   
   /* Colonne droite */
@@ -291,5 +318,15 @@
   
     .about__interest-icon {
       margin: 0 auto;
+    }
+
+    .about__cv-group {
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .about__cv-btn {
+      width: 100%;
+      justify-content: center;
     }
   }

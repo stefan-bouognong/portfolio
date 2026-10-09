@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import './About.css';
 
-import cv from "../../../assets/documents/stefan_mouope_cv.pdf"
+import cvFR from '../../../assets/documents/CV_Stefan_Bouognong_GraphicDesigner_FR.pdf';
+import cvEN from '../../../assets/documents/CV_Stefan_Bouognong_GraphicDesigner_EN.pdf';
 
 const About = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -139,14 +140,37 @@ const About = () => {
               </div>
             </div>
 
-            <a href={cv} download className="about__cv-btn">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                <polyline points="7 10 12 15 17 10"></polyline>
-                <line x1="12" y1="15" x2="12" y2="3"></line>
-              </svg>
-              Télécharger mon CV
-            </a>
+            <div className="about__cv-group">
+              <a
+                href={cvFR}
+                download="CV_Stefan_Bouognong_FR.pdf"
+                className="about__cv-btn"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="7 10 12 15 17 10"></polyline>
+                  <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                <span>Télécharger mon CV (FR)</span>
+              </a>
+
+              <a
+                href={cvEN}
+                download="CV_Stefan_Bouognong_EN.pdf"
+                className="about__cv-btn about__cv-btn--secondary"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="7 10 12 15 17 10"></polyline>
+                  <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                <span>Télécharger mon CV (EN)</span>
+              </a>
+            </div>
           </div>
 
           {/* Colonne droite - Stats & Intérêts */}
