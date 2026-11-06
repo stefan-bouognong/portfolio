@@ -1,13 +1,27 @@
-import { useState, useEffect, useRef } from 'react';
-import { experienceData } from '../../../data/experience';
+import React, { useState, useEffect, useRef } from 'react';
+import { workExperienceData, educationData, referencesData } from '../../../data/experience';
+import type { ExperienceItem, ProfessionalReference } from '../../../types/experience.types';
+import { 
+  Briefcase, 
+  GraduationCap, 
+  MapPin, 
+  Calendar, 
+  Check, 
+  Building2,
+  ChevronRight,
+  Award,
+  UserCheck
+} from 'lucide-react';
 import './Experience.css';
 
-const Experience = () => {
+const Experience: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const [selectedExperience, setSelectedExperience] = useState(0);
+  const [activeTab, setActiveTab] = useState<'work' | 'education'>('work');
+  const [selectedItemIndex, setSelectedItemIndex] = useState<number>(0);
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
+    const currentRef = sectionRef.current;
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -17,170 +31,206 @@ const Experience = () => {
       { threshold: 0.1 }
     );
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
+    if (currentRef) {
+      observer.observe(currentRef);
     }
 
     return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
+      if (currentRef) {
+        observer.unobserve(currentRef);
       }
     };
   }, []);
 
-  const getTypeIcon = (type: string) => {
-    const icons = {
-      work: (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
-          <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
-        </svg>
-      ),
-      freelance: (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-          <circle cx="12" cy="7" r="4"></circle>
-        </svg>
-      ),
-      internship: (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
-          <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
-        </svg>
-      )
-    };
-    return icons[type as keyof typeof icons] || icons.work;
+  // Reset selected item when switching tabs
+  const handleTabChange = (tab: 'work' | 'education') => {
+    setActiveTab(tab);
+    setSelectedItemIndex(0);
   };
 
-  const getTypeLabel = (type: string) => {
-    const labels = {
-      work: 'Emploi',
-      freelance: 'Freelance',
-      internship: 'Stage'
-    };
-    return labels[type as keyof typeof labels] || 'Emploi';
-  };
+  const currentList: ExperienceItem[] = activeTab === 'work' ? workExperienceData : educationData;
+  const activeItem: ExperienceItem = currentList[selectedItemIndex] || currentList[0];
 
   return (
-    <section id="experience" className="experience section" ref={sectionRef}>
+    <section id="experience" className={`experience section ${isVisible ? 'experience--visible' : ''}`} ref={sectionRef}>
       <div className="container">
-        {/* En-tête */}
-        <div className={`experience__header ${isVisible ? 'experience__header--visible' : ''}`}>
-          <span className="experience__subtitle">Mon Parcours</span>
-          <h2 className="experience__title">Expérience Professionnelle</h2>
-          <div className="experience__divider"></div>
+        
+        {/* Editorial Section Header */}
+        <div className="section-header">
+          <div className="section-eyebrow">04 // PARCOURS & FORMATION ACADÉMIQUE</div>
+          <h2 className="section-title">Expérience Professionnelle & Académique</h2>
+          <p className="section-description">
+            Une formation universitaire d'excellence à l'Université de Yaoundé 1 (Master Recherche en Informatique - SIGL) combinée à des réalisations en entreprise et en pratique indépendante.
+          </p>
         </div>
 
-        <div className="experience__content">
-          {/* Timeline à gauche */}
-          <div className={`experience__timeline ${isVisible ? 'experience__timeline--visible' : ''}`}>
-            {experienceData.map((exp, index) => (
-              <div
-                key={exp.id}
-                className={`experience__timeline-item ${
-                  selectedExperience === index ? 'experience__timeline-item--active' : ''
-                }`}
-                onClick={() => setSelectedExperience(index)}
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                <div className="experience__timeline-marker">
-                  <div className="experience__timeline-icon">
-                    {getTypeIcon(exp.type)}
-                  </div>
-                </div>
-                <div className="experience__timeline-content">
-                  <h3 className="experience__timeline-position">{exp.position}</h3>
-                  <div className="experience__timeline-company">{exp.company}</div>
-                  <div className="experience__timeline-period">{exp.period}</div>
-                </div>
-              </div>
-            ))}
-          </div>
+        {/* View Switcher: Work vs Education */}
+        <div className="experience__type-toggle">
+          <button
+            className={`experience__toggle-btn ${activeTab === 'work' ? 'experience__toggle-btn--active' : ''}`}
+            onClick={() => handleTabChange('work')}
+          >
+            <Briefcase size={16} />
+            <span>Expérience Professionnelle</span>
+            <span className="experience__toggle-count">{workExperienceData.length}</span>
+          </button>
 
-          {/* Détails à droite */}
-          <div className={`experience__details ${isVisible ? 'experience__details--visible' : ''}`}>
-            {experienceData.map((exp, index) => (
-              <div
-                key={exp.id}
-                className={`experience__detail ${
-                  selectedExperience === index ? 'experience__detail--active' : ''
-                }`}
-              >
-                <div className="experience__detail-header">
-                  <div>
-                    <h3 className="experience__detail-position">{exp.position}</h3>
-                    <div className="experience__detail-meta">
-                      <span className="experience__detail-company">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                        </svg>
-                        {exp.company}
-                      </span>
-                      <span className="experience__detail-location">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                          <circle cx="12" cy="10" r="3"></circle>
-                        </svg>
-                        {exp.location}
-                      </span>
-                      <span className="experience__detail-period">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                          <circle cx="12" cy="12" r="10"></circle>
-                          <polyline points="12 6 12 12 16 14"></polyline>
-                        </svg>
-                        {exp.period}
-                      </span>
+          <button
+            className={`experience__toggle-btn ${activeTab === 'education' ? 'experience__toggle-btn--active' : ''}`}
+            onClick={() => handleTabChange('education')}
+          >
+            <GraduationCap size={16} />
+            <span>Formation & Recherche</span>
+            <span className="experience__toggle-count">{educationData.length}</span>
+          </button>
+        </div>
+
+        {/* Editorial Timeline & Detail Split Layout */}
+        <div className="experience__layout">
+          
+          {/* Left Column: Timeline Navigation Items */}
+          <div className="experience__nav-column" role="tablist">
+            {currentList.map((item, index) => {
+              const isSelected = selectedItemIndex === index;
+
+              return (
+                <div
+                  key={item.id}
+                  role="tab"
+                  aria-selected={isSelected}
+                  className={`experience__nav-item ${isSelected ? 'experience__nav-item--active' : ''}`}
+                  onClick={() => setSelectedItemIndex(index)}
+                >
+                  <div className="experience__nav-marker" />
+                  
+                  <div className="experience__nav-text">
+                    <div className="experience__nav-period-row">
+                      <span className="experience__nav-period">{item.period}</span>
+                      {item.badge && (
+                        <span className="experience__nav-badge">{item.badge}</span>
+                      )}
+                    </div>
+                    
+                    <h3 className="experience__nav-role">{item.role}</h3>
+                    <div className="experience__nav-org">
+                      <Building2 size={13} />
+                      <span>{item.organization}</span>
                     </div>
                   </div>
-                  <span className="experience__detail-type">
-                    {getTypeIcon(exp.type)}
-                    {getTypeLabel(exp.type)}
-                  </span>
+
+                  <ChevronRight size={16} className="experience__nav-arrow" />
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Right Column: In-Depth Editorial Dossier */}
+          <div className="experience__dossier-column">
+            {activeItem && (
+              <div className="experience__dossier-card">
+                
+                {/* Dossier Header */}
+                <div className="experience__dossier-header">
+                  <div className="experience__dossier-eyebrow">
+                    <span className="tag-mono">
+                      {activeTab === 'work' ? 'POSTE & RESPONSABILITÉS' : 'DIPLÔME & CURRICULUM'}
+                    </span>
+                    <span className="experience__dossier-badge">{activeItem.badge}</span>
+                  </div>
+
+                  <h3 className="experience__dossier-title">{activeItem.role}</h3>
+
+                  <div className="experience__dossier-meta">
+                    <span className="experience__dossier-org">
+                      <Building2 size={16} className="experience__meta-icon" />
+                      {activeItem.organization}
+                    </span>
+                    <span className="experience__dossier-location">
+                      <MapPin size={16} className="experience__meta-icon" />
+                      {activeItem.location}
+                    </span>
+                    <span className="experience__dossier-period">
+                      <Calendar size={16} className="experience__meta-icon" />
+                      {activeItem.period}
+                    </span>
+                  </div>
                 </div>
 
-                <p className="experience__detail-description">{exp.description}</p>
+                {/* Narrative Summary */}
+                <p className="experience__dossier-desc">{activeItem.description}</p>
 
-                <div className="experience__detail-section">
-                  <h4 className="experience__detail-subtitle">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <polyline points="9 11 12 14 22 4"></polyline>
-                      <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
-                    </svg>
-                    Responsabilités
+                {/* Core Responsibilities & Highlights */}
+                <div className="experience__dossier-section">
+                  <h4 className="experience__dossier-subtitle">
+                    {activeTab === 'work' ? 'Missions & Réalisations Clés' : 'Axes d\'Étude & Compétences Validées'}
                   </h4>
-                  <ul className="experience__detail-list">
-                    {exp.responsibilities.map((resp, i) => (
-                      <li key={i} className="experience__detail-list-item">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                          <polyline points="9 11 12 14 22 4"></polyline>
-                          <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
-                        </svg>
-                        <span>{resp}</span>
+                  <ul className="experience__dossier-list">
+                    {activeItem.highlights.map((h, i) => (
+                      <li key={i} className="experience__dossier-list-item">
+                        <span className="experience__check-bullet">
+                          <Check size={12} strokeWidth={3} />
+                        </span>
+                        <span>{h}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
 
-                <div className="experience__detail-section">
-                  <h4 className="experience__detail-subtitle">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <polyline points="16 18 22 12 16 6"></polyline>
-                      <polyline points="8 6 2 12 8 18"></polyline>
-                    </svg>
-                    Technologies utilisées
-                  </h4>
-                  <div className="experience__detail-tech">
-                    {exp.technologies.map((tech, i) => (
-                      <span key={i} className="experience__detail-tag">
-                        {tech}
-                      </span>
-                    ))}
+                {/* Direct Reference Citation when available */}
+                {activeItem.reference && (
+                  <div className="experience__dossier-section experience__dossier-section--ref">
+                    <div className="experience__reference-pill">
+                      <UserCheck size={15} className="experience__ref-icon" />
+                      <div>
+                        <strong>Référence :</strong> {activeItem.reference.name} — <span className="experience__ref-title">{activeItem.reference.title}</span>
+                      </div>
+                    </div>
                   </div>
+                )}
+
+                {/* Technology / Tool Tags when applicable */}
+                {activeItem.technologies && activeItem.technologies.length > 0 && (
+                  <div className="experience__dossier-section experience__dossier-section--tech">
+                    <h4 className="experience__dossier-subtitle">Outils & Environnements Mobilisés</h4>
+                    <div className="experience__tech-tags">
+                      {activeItem.technologies.map((tech, i) => (
+                        <span key={i} className="experience__tech-tag">
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+              </div>
+            )}
+          </div>
+
+        </div>
+
+        {/* References Section directly from CV */}
+        <div className="experience__references-container">
+          <div className="experience__references-header">
+            <span className="section-eyebrow">RÉFÉRENCES VÉRIFIÉES</span>
+            <h3 className="experience__references-title">Encadrement Professionnel & Académique</h3>
+          </div>
+
+          <div className="experience__references-grid">
+            {referencesData.map((ref: ProfessionalReference) => (
+              <div key={ref.id} className="experience__ref-card">
+                <div className="experience__ref-badge">
+                  <Award size={16} />
+                  <span>Référent Certifié</span>
                 </div>
+                <h4 className="experience__ref-name">{ref.name}</h4>
+                <div className="experience__ref-role">{ref.role}</div>
+                <div className="experience__ref-org">{ref.organization}</div>
+                <p className="experience__ref-context">{ref.context}</p>
               </div>
             ))}
           </div>
         </div>
+
       </div>
     </section>
   );

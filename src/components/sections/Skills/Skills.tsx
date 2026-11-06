@@ -1,13 +1,33 @@
-import { useState, useEffect, useRef } from 'react';
-import { skillsData } from '../../../data/skills';
+import React, { useState, useEffect, useRef } from 'react';
+import { 
+  disciplinesData, 
+  softSkillsData,
+  languagesData 
+} from '../../../data/skills';
+import type { SkillGroup } from '../../../data/skills';
+import { 
+  Layers, 
+  Compass, 
+  Code2, 
+  Lightbulb, 
+  Users, 
+  Puzzle, 
+  Palette, 
+  Clock, 
+  Repeat, 
+  CheckCircle2,
+  Check,
+  Languages
+} from 'lucide-react';
 import './Skills.css';
 
-const Skills = () => {
+const Skills: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const [activeCategory, setActiveCategory] = useState(0);
+  const [activeTab, setActiveTab] = useState<number>(0);
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
+    const currentRef = sectionRef.current;
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -17,151 +37,177 @@ const Skills = () => {
       { threshold: 0.1 }
     );
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
+    if (currentRef) {
+      observer.observe(currentRef);
     }
 
     return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
+      if (currentRef) {
+        observer.unobserve(currentRef);
       }
     };
   }, []);
 
-  const icons = {
-    frontend: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <polyline points="16 18 22 12 16 6"></polyline>
-        <polyline points="8 6 2 12 8 18"></polyline>
-      </svg>
-    ),
-    backend: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
-        <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
-        <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
-      </svg>
-    ),
-    mobile: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
-        <line x1="12" y1="18" x2="12.01" y2="18"></line>
-      </svg>
-    ),
-    design: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 19l7-7 3 3-7 7-3-3z"></path>
-        <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path>
-        <path d="M2 2l7.586 7.586"></path>
-        <circle cx="11" cy="11" r="2"></circle>
-      </svg>
-    ),
-    devops: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="12" r="3"></circle>
-        <path d="M12 1v6m0 6v6"></path>
-        <path d="m4.93 4.93 4.24 4.24m5.66 5.66 4.24 4.24"></path>
-        <path d="M1 12h6m6 0h6"></path>
-        <path d="m4.93 19.07 4.24-4.24m5.66-5.66 4.24-4.24"></path>
-      </svg>
-    )
+  const getDisciplineIcon = (number: string) => {
+    switch (number) {
+      case '01':
+        return <Layers size={20} strokeWidth={2} />;
+      case '02':
+        return <Compass size={20} strokeWidth={2} />;
+      case '03':
+        return <Code2 size={20} strokeWidth={2} />;
+      default:
+        return <Layers size={20} />;
+    }
   };
 
-  const getCategoryIcon = (index: number) => {
-    const categories = ['frontend', 'backend', 'mobile', 'design', 'devops'];
-    return icons[categories[index] as keyof typeof icons] || icons.frontend;
+  const getSoftSkillIcon = (iconName: string) => {
+    switch (iconName) {
+      case 'Lightbulb':
+        return <Lightbulb size={20} strokeWidth={2} />;
+      case 'Users':
+        return <Users size={20} strokeWidth={2} />;
+      case 'Puzzle':
+        return <Puzzle size={20} strokeWidth={2} />;
+      case 'Palette':
+        return <Palette size={20} strokeWidth={2} />;
+      case 'Clock':
+        return <Clock size={20} strokeWidth={2} />;
+      case 'Repeat':
+        return <Repeat size={20} strokeWidth={2} />;
+      case 'Check':
+        return <Check size={20} strokeWidth={2} />;
+      default:
+        return <Lightbulb size={20} />;
+    }
   };
+
+  const currentDiscipline: SkillGroup = disciplinesData[activeTab];
 
   return (
-    <section id="skills" className="skills section" ref={sectionRef}>
+    <section id="skills" className={`skills section ${isVisible ? 'skills--visible' : ''}`} ref={sectionRef}>
       <div className="container">
-        {/* En-tête */}
-        <div className={`skills__header ${isVisible ? 'skills__header--visible' : ''}`}>
-          <span className="skills__subtitle">Ce que je maîtrise</span>
-          <h2 className="skills__title">Mes Compétences</h2>
-          <div className="skills__divider"></div>
+        
+        {/* Editorial Section Header */}
+        <div className="section-header">
+          <div className="section-eyebrow">02 // COMPÉTENCES & DOMAINES D'EXPERTISE</div>
+          <h2 className="section-title">Design UX/UI, Graphisme & Développement Web</h2>
+          <p className="section-description">
+            Une synergie unique entre vision esthétique, prototypage rapide sous Figma/Canva, et rigueur d'ingénierie logicielle (React, Next.js, Python, Django).
+          </p>
         </div>
 
-        {/* Onglets de catégories */}
-        <div className={`skills__tabs ${isVisible ? 'skills__tabs--visible' : ''}`}>
-          {skillsData.map((category, index) => (
+        {/* 3 Discipline Selectors / Tabs */}
+        <div className="skills__tabs" role="tablist" aria-label="Discipline areas">
+          {disciplinesData.map((d, index) => (
             <button
-              key={index}
-              className={`skills__tab ${activeCategory === index ? 'skills__tab--active' : ''}`}
-              onClick={() => setActiveCategory(index)}
-              style={{
-                '--category-color': category.color
-              } as React.CSSProperties}
+              key={d.number}
+              role="tab"
+              aria-selected={activeTab === index}
+              className={`skills__tab ${activeTab === index ? 'skills__tab--active' : ''}`}
+              onClick={() => setActiveTab(index)}
             >
-              <span className="skills__tab-icon">{getCategoryIcon(index)}</span>
-              <span className="skills__tab-text">{category.title}</span>
+              <div className="skills__tab-header">
+                <span className="skills__tab-number">{d.number}</span>
+                <span className="skills__tab-icon">{getDisciplineIcon(d.number)}</span>
+              </div>
+              <div className="skills__tab-title">{d.discipline}</div>
+              <div className="skills__tab-indicator" />
             </button>
           ))}
         </div>
 
-        {/* Grille de compétences */}
-        <div className="skills__content">
-          {skillsData.map((category, categoryIndex) => (
-            <div
-              key={categoryIndex}
-              className={`skills__category ${
-                activeCategory === categoryIndex ? 'skills__category--active' : ''
-              }`}
-            >
-              <div className="skills__grid">
-                {category.skills.map((skill, skillIndex) => (
-                  <div
-                    key={skillIndex}
-                    className={`skills__card ${isVisible ? 'skills__card--visible' : ''}`}
-                    style={{
-                      animationDelay: `${skillIndex * 0.1}s`
-                    }}
-                  >
-                    <div className="skills__card-header">
-                      <h3 className="skills__card-name">{skill.name}</h3>
-                      <span className="skills__card-level">{skill.level}%</span>
+        {/* Active Discipline Detailed Showcase */}
+        <div className="skills__showcase">
+          <div className="skills__panel">
+            
+            {/* Left Column: Discipline Overview & Capabilities */}
+            <div className="skills__panel-main">
+              <div className="skills__panel-eyebrow">
+                <span className="tag-mono">DOMAINE // {currentDiscipline.number}</span>
+                <span className="skills__panel-toolcount">{currentDiscipline.primaryTools.join(' • ')}</span>
+              </div>
+
+              <h3 className="skills__panel-heading">{currentDiscipline.discipline}</h3>
+              <p className="skills__panel-summary">{currentDiscipline.summary}</p>
+
+              {/* Core Capabilities Grid */}
+              <div className="skills__capabilities-grid">
+                {currentDiscipline.capabilities.map((cap, i) => (
+                  <div key={i} className="skills__capability-card">
+                    <div className="skills__capability-header">
+                      <CheckCircle2 size={16} className="skills__capability-check" />
+                      <h4 className="skills__capability-name">{cap.name}</h4>
                     </div>
-                    
-                    <div className="skills__progress-bar">
-                      <div
-                        className="skills__progress-fill"
-                        style={{
-                          width: isVisible ? `${skill.level}%` : '0%',
-                          backgroundColor: category.color,
-                          transitionDelay: `${skillIndex * 0.1}s`
-                        }}
-                      ></div>
-                    </div>
+                    <p className="skills__capability-desc">{cap.description}</p>
                   </div>
                 ))}
               </div>
             </div>
-          ))}
+
+            {/* Right Column: Technical & Design Tool Tokens */}
+            <div className="skills__panel-aside">
+              <div className="skills__aside-box">
+                <span className="skills__aside-title">Technologies & Outils Maîtrisés</span>
+                <div className="skills__tags-cloud">
+                  {currentDiscipline.stack.map((item, i) => (
+                    <span key={i} className="skills__tech-tag">
+                      <span className="skills__tech-dot" />
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="skills__discipline-note">
+                <div className="skills__discipline-note-accent" />
+                <p>
+                  Chaque compétence et technologie reflète une pratique éprouvée sur des projets professionnels, de recherche académique et de production.
+                </p>
+              </div>
+            </div>
+
+          </div>
         </div>
 
-        {/* Section bonus - Soft Skills */}
-        <div className={`skills__soft ${isVisible ? 'skills__soft--visible' : ''}`}>
-          <h3 className="skills__soft-title">Soft Skills</h3>
+        {/* Soft Skills & Professional Attributes */}
+        <div className="skills__soft-section">
+          <div className="skills__soft-header">
+            <span className="section-eyebrow">COMPÉTENCES PROFESSIONNELLES</span>
+            <h3 className="skills__soft-title">Qualités Méthodologiques & Collaboratives</h3>
+          </div>
+
           <div className="skills__soft-grid">
-            {[
-              { name: 'Travail d\'équipe', icon: '🤝' },
-              { name: 'Communication', icon: '💬' },
-              { name: 'Résolution de problèmes', icon: '🧩' },
-              { name: 'Créativité', icon: '🎨' },
-              { name: 'Gestion du temps', icon: '⏱️' },
-              { name: 'Adaptabilité', icon: '🔄' },
-            ].map((soft, index) => (
-              <div
-                key={index}
-                className="skills__soft-item"
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                <span className="skills__soft-icon">{soft.icon}</span>
-                <span className="skills__soft-name">{soft.name}</span>
+            {softSkillsData.map((soft, index) => (
+              <div key={index} className="skills__soft-card">
+                <div className="skills__soft-icon-wrapper">
+                  {getSoftSkillIcon(soft.icon)}
+                </div>
+                <h4 className="skills__soft-name">{soft.name}</h4>
+                <p className="skills__soft-desc">{soft.description}</p>
               </div>
             ))}
           </div>
+
+          {/* Languages Section */}
+          <div className="skills__languages-bar">
+            <div className="skills__languages-header">
+              <Languages size={18} className="skills__languages-icon" />
+              <span className="skills__languages-title">Langues Pratiquées :</span>
+            </div>
+            <div className="skills__languages-list">
+              {languagesData.map((lang, idx) => (
+                <div key={idx} className="skills__language-item">
+                  <strong>{lang.language}</strong>
+                  <span className="skills__language-sep">—</span>
+                  <span className="skills__language-level">{lang.level}</span>
+                  <span className="skills__language-prof">({lang.proficiency})</span>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
+
       </div>
     </section>
   );

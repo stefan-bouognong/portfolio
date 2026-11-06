@@ -1,0 +1,280 @@
+.process {
+  background-color: var(--color-secondary);
+  color: var(--color-pure-white);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  position: relative;
+}
+
+/* Track Container */
+.process__track-container {
+  position: relative;
+  margin-bottom: var(--space-12);
+}
+
+.process__track-line {
+  position: absolute;
+  top: 24px;
+  left: 5%;
+  right: 5%;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.12);
+  z-index: 1;
+}
+
+.process__track-steps {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.process__track-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  background: transparent;
+  cursor: pointer;
+  padding: 0 var(--space-2);
+  transition: all var(--transition-fast);
+}
+
+.process__track-dot {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #1f2330;
+  border: 2px solid rgba(255, 255, 255, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-dark-text-muted);
+  transition: all var(--transition-base);
+}
+
+.process__track-number {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.process__track-label {
+  font-family: var(--font-heading);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--color-dark-text-muted);
+  transition: color var(--transition-fast);
+}
+
+.process__track-step--active .process__track-dot {
+  background: var(--color-primary);
+  border-color: var(--color-pure-white);
+  color: var(--color-pure-white);
+  box-shadow: 0 0 20px rgba(54, 92, 255, 0.5);
+  transform: scale(1.1);
+}
+
+.process__track-step--active .process__track-label {
+  color: var(--color-accent);
+}
+
+.process__track-step--past .process__track-dot {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+/* Detailed Stage Card */
+.process__stage-card {
+  background: #1d212d;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-xl);
+  padding: var(--space-10);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+  animation: fadeIn 250ms ease-out;
+}
+
+.process__stage-header {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-6);
+  padding-bottom: var(--space-8);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  margin-bottom: var(--space-8);
+}
+
+.process__stage-badge-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  align-items: flex-start;
+  flex-shrink: 0;
+}
+
+.process__stage-step-tag {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  color: var(--color-accent);
+  background: rgba(215, 243, 106, 0.12);
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-xs);
+  font-weight: 600;
+}
+
+.process__stage-icon-wrap {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-md);
+  background: rgba(54, 92, 255, 0.15);
+  border: 1px solid rgba(54, 92, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-primary);
+}
+
+.process__stage-titles {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.process__stage-title {
+  font-size: clamp(1.85rem, 3.5vw, 2.75rem);
+  font-weight: 700;
+  color: var(--color-pure-white);
+  letter-spacing: -0.03em;
+}
+
+.process__stage-short {
+  font-size: var(--text-lg);
+  color: var(--color-accent);
+  font-weight: 500;
+  line-height: 1.5;
+  margin-bottom: 0;
+}
+
+/* Stage Body */
+.process__stage-body {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: var(--space-10);
+  margin-bottom: var(--space-10);
+}
+
+.process__stage-subtitle {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--color-dark-text-muted);
+  margin-bottom: var(--space-4);
+}
+
+.process__stage-narrative p {
+  font-size: var(--text-base);
+  color: rgba(255, 255, 255, 0.82);
+  line-height: 1.75;
+}
+
+.process__deliverables-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.process__deliverable-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: var(--text-sm);
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.process__deliverable-icon {
+  color: var(--color-accent);
+  flex-shrink: 0;
+}
+
+/* Stepper Footer */
+.process__stage-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: var(--space-6);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.process__nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0.65rem 1.25rem;
+  border-radius: var(--radius-full);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-dark-text-muted);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: transparent;
+  transition: all var(--transition-fast);
+}
+
+.process__nav-btn:hover:not(:disabled) {
+  color: var(--color-pure-white);
+  border-color: var(--color-pure-white);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.process__nav-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.process__nav-btn--next {
+  color: var(--color-secondary);
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  font-weight: 600;
+}
+
+.process__nav-btn--next:hover:not(:disabled) {
+  background: var(--color-accent-hover);
+  border-color: var(--color-accent-hover);
+  color: var(--color-secondary);
+}
+
+.process__stage-indicator {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-dark-text-muted);
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .process__stage-body {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+}
+
+@media (max-width: 768px) {
+  .process__track-container {
+    overflow-x: auto;
+    padding-bottom: var(--space-4);
+  }
+  .process__track-steps {
+    min-width: 480px;
+  }
+  .process__stage-card {
+    padding: var(--space-6);
+  }
+  .process__stage-header {
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+}
+

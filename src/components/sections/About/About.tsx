@@ -1,212 +1,185 @@
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Download, Check, Sparkles, Layers, Terminal, Compass } from 'lucide-react';
 import './About.css';
 
 import cvFR from '../../../assets/documents/CV_Stefan_Bouognong_GraphicDesigner_FR.pdf';
 import cvEN from '../../../assets/documents/CV_Stefan_Bouognong_GraphicDesigner_EN.pdf';
 
-const About = () => {
+const About: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
+    const currentRef = sectionRef.current;
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
         }
       },
-      { threshold: 0.1 }
+      { threshold: 0.15 }
     );
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
+    if (currentRef) {
+      observer.observe(currentRef);
     }
 
     return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
+      if (currentRef) {
+        observer.unobserve(currentRef);
       }
     };
   }, []);
 
-  const stats = [
-    { number: '3+', label: 'Années d\'expérience' },
-    { number: '50+', label: 'Projets réalisés' },
-    { number: '30+', label: 'Clients satisfaits' },
-    { number: '100%', label: 'Engagement' },
+  const corePrinciples = [
+    {
+      title: 'Design UX/UI & Conception Centrée Utilisateur',
+      description: 'Conception d\'identités visuelles et d\'interfaces numériques claires, cohérentes et intuitives, du concept graphique initial au prototypage interactif sous Figma et Canva.',
+      icon: <Layers size={18} className="about__principle-icon" />,
+    },
+    {
+      title: 'Identité Visuelle, Typographie & Graphisme',
+      description: 'Attention méticuleuse portée à la typographie, à la hiérarchie visuelle, aux grilles suisses et à la cohérence de marque sur tous les supports numériques et imprimés.',
+      icon: <Compass size={18} className="about__principle-icon" />,
+    },
+    {
+      title: 'Développement Web, Mobile & Ingénierie Logicielle',
+      description: 'Compréhension profonde des contraintes techniques de production et développement d\'applications modernes avec React, Next.js, React Native, Python et Django.',
+      icon: <Terminal size={18} className="about__principle-icon" />,
+    },
   ];
 
-  const interests = [
-    {
-      icon: (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
-          <line x1="8" y1="21" x2="16" y2="21"></line>
-          <line x1="12" y1="17" x2="12" y2="21"></line>
-        </svg>
-      ),
-      title: 'Design UI/UX',
-      description: ' Création d\'interfaces intuitives et esthétiques'
-    },
-    {
-      icon: (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <polyline points="16 18 22 12 16 6"></polyline>
-          <polyline points="8 6 2 12 8 18"></polyline>
-        </svg>
-      ),
-      title: 'Développement',
-      description: 'Code propre et solutions performantes'
-    },
-    {
-      icon: (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
-          <line x1="12" y1="18" x2="12.01" y2="18"></line>
-        </svg>
-      ),
-      title: 'Mobile First',
-      description: 'Applications mobiles natives et hybrides'
-    },
-    {
-      icon: (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <circle cx="12" cy="12" r="10"></circle>
-          <line x1="2" y1="12" x2="22" y2="12"></line>
-          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-        </svg>
-      ),
-      title: 'Innovation',
-      description: 'Veille technologique et nouvelles tendances'
-    }
+  const highlights = [
+    'Conception centrée utilisateur, structuration des parcours et hiérarchie visuelle',
+    'Maîtrise des outils de conception visuelle et prototypage (Figma, Canva, Adobe Suite)',
+    'Développement d\'applications web et mobiles (React, Next.js, React Native, Python, Django)',
+    'Création de bibliothèques de composants réutilisables et de design systems évolutifs',
+    'Recherche informatique & rigueur méthodologique (Master 2 Recherche, Université de Yaoundé 1)',
+  ];
+
+  const stats = [
+    { number: '3+', label: 'Années de Pratique' },
+    { number: 'M2', label: 'Recherche Info (En cours)' },
+    { number: '03', label: 'Disciplines Maîtrisées' },
+    { number: '100%', label: 'Rigueur & Engagement' },
   ];
 
   return (
-    <section id="about" className="about section" ref={sectionRef}>
+    <section id="about" className={`about section ${isVisible ? 'about--visible' : ''}`} ref={sectionRef}>
       <div className="container">
-        {/* En-tête de section */}
-        <div className={`about__header ${isVisible ? 'about__header--visible' : ''}`}>
-          <span className="about__subtitle">Qui suis-je ?</span>
-          <h2 className="about__title">À propos de moi</h2>
-          <div className="about__divider"></div>
+        
+        {/* Section Editorial Header */}
+        <div className="section-header">
+          <div className="section-eyebrow">01 // PROFIL & PHILOSOPHIE</div>
+          <h2 className="section-title">À la Convergence du Design et de l'Ingénierie</h2>
+          <p className="section-description">
+            Du concept graphique à l'intégration finale : transformer des idées complexes en expériences numériques claires, cohérentes et centrées sur l'utilisateur.
+          </p>
         </div>
 
-        {/* Contenu principal */}
-        <div className="about__content">
-          {/* Colonne gauche - Texte */}
-          <div className={`about__text ${isVisible ? 'about__text--visible' : ''}`}>
-            <p className="about__paragraph">
-              Passionné par le <strong>design</strong> et le <strong>développement</strong>, 
-              je suis un créateur numérique qui aime transformer des idées en expériences 
-              digitales mémorables.
-            </p>
-            
-            <p className="about__paragraph">
-              Avec une expertise en <strong>UX/UI Design</strong> et en <strong>développement 
-              Full Stack</strong>, je combine créativité et technique pour créer des solutions 
-              qui non seulement sont belles, mais fonctionnent parfaitement.
-            </p>
-
-            <p className="about__paragraph">
-              Mon approche est centrée sur l'utilisateur, avec un souci constant de la 
-              performance, de l'accessibilité et de l'innovation. Chaque projet est une 
-              opportunité d'apprendre et de repousser les limites du possible.
-            </p>
-
-            <div className="about__highlights">
-              <div className="about__highlight">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="20 6 9 17 4 12"></polyline>
-                </svg>
-                <span>Design thinking & User research</span>
-              </div>
-              <div className="about__highlight">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="20 6 9 17 4 12"></polyline>
-                </svg>
-                <span>Développement web moderne (React, Node.js)</span>
-              </div>
-              <div className="about__highlight">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="20 6 9 17 4 12"></polyline>
-                </svg>
-                <span>Applications mobiles (React Native)</span>
-              </div>
-              <div className="about__highlight">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="20 6 9 17 4 12"></polyline>
-                </svg>
-                <span>Architecture Full Stack & DevOps</span>
-              </div>
+        {/* Editorial Split Grid */}
+        <div className="about__grid">
+          
+          {/* Main Story & Biography */}
+          <div className="about__narrative">
+            <div className="about__lead-statement">
+              "Designer UX/UI et développeur web, je conçois des identités visuelles et des interfaces numériques claires, cohérentes et centrées sur l'utilisateur, du concept graphique à l'intégration finale."
             </div>
 
-            <div className="about__cv-group">
+            <p className="about__body-p">
+              Basé à <strong>Yaoundé, Cameroun</strong>, je poursuis actuellement un <strong>Master 2 Recherche en Informatique</strong> à l'Université de Yaoundé 1 après un <strong>Master 1 option SIGL</strong> (Systèmes d'Information et Génie Logiciel). Ma formation académique exigeante nourrit une rigueur méthodologique constante dans chacun de mes projets.
+            </p>
+
+            <p className="about__body-p">
+              Je maîtrise les outils de conception visuelle et de prototypage (<strong>Figma, Canva</strong>) et j'accorde une attention particulière à la <strong>typographie</strong>, à la <strong>hiérarchie visuelle</strong> et à la <strong>cohérence de marque</strong>. Ma double compétence en développement web et mobile me permet de comprendre intimement les contraintes techniques d'une production et de collaborer efficacement avec les équipes créatives et techniques.
+            </p>
+
+            <p className="about__body-p">
+              Rigoureux, curieux et à l'écoute des retours, j'ai développé mon expérience à travers des projets professionnels en entreprise (comme chez <strong>Mendo Company SAS</strong> sur la plateforme <strong>Mendo Coti</strong>), des initiatives à fort impact social (<strong>BloodLink</strong>, <strong>Terrabia</strong>, <strong>Topitoh</strong>) et des travaux de recherche universitaire (<strong>KIMVIEware</strong>).
+            </p>
+
+            {/* Structured Capabilities List */}
+            <div className="about__capabilities">
+              <span className="about__capabilities-label">Principes Directeurs :</span>
+              <ul className="about__capabilities-list">
+                {highlights.map((item, idx) => (
+                  <li key={idx} className="about__capability-item">
+                    <span className="about__check-bullet">
+                      <Check size={12} strokeWidth={3} />
+                    </span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* CV Downloads */}
+            <div className="about__actions">
               <a
                 href={cvFR}
                 download="CV_Stefan_Bouognong_FR.pdf"
-                className="about__cv-btn"
+                className="btn btn--primary about__btn"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                  <polyline points="7 10 12 15 17 10"></polyline>
-                  <line x1="12" y1="15" x2="12" y2="3"></line>
-                </svg>
+                <Download size={16} strokeWidth={2.2} />
                 <span>Télécharger mon CV (FR)</span>
               </a>
 
               <a
                 href={cvEN}
                 download="CV_Stefan_Bouognong_EN.pdf"
-                className="about__cv-btn about__cv-btn--secondary"
+                className="btn btn--secondary about__btn"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                  <polyline points="7 10 12 15 17 10"></polyline>
-                  <line x1="12" y1="15" x2="12" y2="3"></line>
-                </svg>
-                <span>Télécharger mon CV (EN)</span>
+                <Download size={16} strokeWidth={2.2} />
+                <span>Download CV (EN)</span>
               </a>
             </div>
+
           </div>
 
-          {/* Colonne droite - Stats & Intérêts */}
-          <div className={`about__side ${isVisible ? 'about__side--visible' : ''}`}>
-            {/* Statistiques */}
-            <div className="about__stats">
-              {stats.map((stat, index) => (
-                <div 
-                  key={index} 
-                  className="about__stat"
-                  style={{ animationDelay: `${index * 0.1}s` }}
-                >
-                  <div className="about__stat-number">{stat.number}</div>
-                  <div className="about__stat-label">{stat.label}</div>
-                </div>
-              ))}
-            </div>
-
-            {/* Centres d'intérêt */}
-            <div className="about__interests">
-              {interests.map((interest, index) => (
-                <div 
-                  key={index} 
-                  className="about__interest"
-                  style={{ animationDelay: `${(index + 4) * 0.1}s` }}
-                >
-                  <div className="about__interest-icon">{interest.icon}</div>
-                  <div className="about__interest-content">
-                    <h3 className="about__interest-title">{interest.title}</h3>
-                    <p className="about__interest-description">{interest.description}</p>
+          {/* Right Column: Principles & Balanced Metrics */}
+          <div className="about__aside">
+            
+            {/* Principles Stack */}
+            <div className="about__principles-stack">
+              {corePrinciples.map((principle, index) => (
+                <div key={index} className="about__principle-card">
+                  <div className="about__principle-header">
+                    <div className="about__principle-icon-wrap">
+                      {principle.icon}
+                    </div>
+                    <h3 className="about__principle-title">{principle.title}</h3>
                   </div>
+                  <p className="about__principle-desc">{principle.description}</p>
                 </div>
               ))}
             </div>
+
+            {/* Editorial Metric Strip */}
+            <div className="about__stats-strip">
+              {stats.map((s, index) => (
+                <div key={index} className="about__stat-block">
+                  <span className="about__stat-number">{s.number}</span>
+                  <span className="about__stat-label">{s.label}</span>
+                </div>
+              ))}
+            </div>
+
+            {/* Creative Note Card */}
+            <div className="about__badge-card">
+              <Sparkles size={16} className="about__badge-icon" />
+              <div className="about__badge-text">
+                <strong>Rigueur de conception & de code :</strong> Hiérarchie visuelle éprouvée, grilles précises, design systems scalables et code propre sans compromis.
+              </div>
+            </div>
+
           </div>
+
         </div>
+
       </div>
     </section>
   );

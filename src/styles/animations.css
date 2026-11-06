@@ -1,135 +1,89 @@
-/* Animations de fondu */
+/* Micro-interactions & Keyframe Animations */
+
 @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
+  from {
+    opacity: 0;
   }
-  
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(30px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+  to {
+    opacity: 1;
   }
-  
-  @keyframes fadeInDown {
-    from {
-      opacity: 0;
-      transform: translateY(-30px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
   }
-  
-  @keyframes slideInLeft {
-    from {
-      opacity: 0;
-      transform: translateX(-50px);
-    }
-    to {
-      opacity: 1;
-      transform: translateX(0);
-    }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
-  @keyframes slideInRight {
-    from {
-      opacity: 0;
-      transform: translateX(50px);
-    }
-    to {
-      opacity: 1;
-      transform: translateX(0);
-    }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
   }
-  
-  /* Animation de zoom */
-  @keyframes zoomIn {
-    from {
-      opacity: 0;
-      transform: scale(0.9);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
-  /* Animation de rotation */
-  @keyframes rotate {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
   }
-  
-  /* Animation de pulse */
-  @keyframes pulse {
-    0%, 100% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0.5;
-    }
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
-  
-  /* Classes utilitaires d'animation */
-  .animate-fadeIn {
-    animation: fadeIn var(--transition-base);
+}
+
+@keyframes pulseSubtle {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
   }
-  
-  .animate-fadeInUp {
-    animation: fadeInUp var(--transition-base);
+  50% {
+    transform: scale(1.08);
+    opacity: 0.85;
   }
-  
-  .animate-fadeInDown {
-    animation: fadeInDown var(--transition-base);
-  }
-  
-  .animate-slideInLeft {
-    animation: slideInLeft var(--transition-base);
-  }
-  
-  .animate-slideInRight {
-    animation: slideInRight var(--transition-base);
-  }
-  
-  .animate-zoomIn {
-    animation: zoomIn var(--transition-base);
-  }
-  
-  /* Delays d'animation */
-  .animation-delay-100 { animation-delay: 100ms; }
-  .animation-delay-200 { animation-delay: 200ms; }
-  .animation-delay-300 { animation-delay: 300ms; }
-  .animation-delay-400 { animation-delay: 400ms; }
-  .animation-delay-500 { animation-delay: 500ms; }
-  
-  /* Hover effects */
-  .hover-scale {
-    transition: transform var(--transition-base);
-  }
-  
-  .hover-scale:hover {
-    transform: scale(1.05);
-  }
-  
-  .hover-lift {
-    transition: transform var(--transition-base), box-shadow var(--transition-base);
-  }
-  
-  .hover-lift:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-xl);
-  }
+}
+
+/* Reveal classes */
+.reveal-fade {
+  animation: fadeIn var(--transition-smooth) forwards;
+}
+
+.reveal-up {
+  animation: fadeInUp var(--transition-smooth) forwards;
+}
+
+/* Stagger delay utilities */
+.delay-1 { animation-delay: 80ms; }
+.delay-2 { animation-delay: 160ms; }
+.delay-3 { animation-delay: 240ms; }
+.delay-4 { animation-delay: 320ms; }
+.delay-5 { animation-delay: 400ms; }
+
+/* Micro interaction utilities */
+.hover-lift {
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.hover-glow {
+  transition: box-shadow var(--transition-base), border-color var(--transition-base);
+}
+
+.hover-glow:hover {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 20px rgba(54, 92, 255, 0.16);
+}

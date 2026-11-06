@@ -1,34 +1,35 @@
+import React from 'react';
 import ThreeBackground from './components/common/ThreeBackground/ThreeBackground';
-
 import Header from './components/layout/Header/Header';
-
-
 import Hero from './components/sections/Hero/Hero';
-import './App.css';
 import About from './components/sections/About/About';
 import Skills from './components/sections/Skills/Skills';
 import Projects from './components/sections/Projects/Projects';
 import Experience from './components/sections/Experience/Experience';
+import Process from './components/sections/Process/Process';
 import Contact from './components/sections/Contact/Contact';
 import Footer from './components/layout/Footer/Footer';
+import './App.css';
 
-function App() {
+const App: React.FC = () => {
   return (
     <div className="App">
       <ThreeBackground />
       <Header />
       
-      <main>
+      <main className="content">
         <Hero />
         <About />
-        <Skills/>
+        <Skills />
         <Projects />
         <Experience />
+        <Process />
         <Contact />
-        <Footer />
       </main>
+
+      <Footer />
     </div>
   );
-}
+};
 
 export default App;

@@ -1,213 +1,327 @@
-import { useState, useEffect, useRef } from 'react';
-import type React from 'react';
-
+import React, { useState, useEffect, useRef } from 'react';
+import type { Project, ProjectCategory } from '../../../types/project.types';
 import { projectsData, categories } from '../../../data/projects';
-import type { Project } from '../../../types/project.types';
+import { 
+  ArrowUpRight, 
+  ExternalLink, 
+  X, 
+  Layers, 
+  Compass, 
+  Code2, 
+  Eye
+} from 'lucide-react';
 import './Projects.css';
 
-const Projects = () => {
+const Projects: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const [activeCategory, setActiveCategory] = useState('all');
-  const [filteredProjects, setFilteredProjects] =
-    useState<Project[]>(projectsData);
-  const [selectedProject, setSelectedProject] =
-    useState<Project | null>(null);
+  const [activeCategory, setActiveCategory] = useState<ProjectCategory>('all');
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
-  const sectionRef = useRef<HTMLElement | null>(null);
+  const sectionRef = useRef<HTMLElement>(null);
 
-  /* =======================
-     Intersection Observer
-  ======================== */
+  // Intersection observer for section entry
   useEffect(() => {
+    const currentRef = sectionRef.current;
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) setIsVisible(true);
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
       },
-      { threshold: 0.1 }
+      { threshold: 0.08 }
     );
 
-    if (sectionRef.current) observer.observe(sectionRef.current);
+    if (currentRef) {
+      observer.observe(currentRef);
+    }
 
     return () => {
-      if (sectionRef.current) observer.unobserve(sectionRef.current);
+      if (currentRef) {
+        observer.unobserve(currentRef);
+      }
     };
   }, []);
 
-  /* =======================
-     Filter projects
-  ======================== */
+  // Filtered projects computed as derived state
+  const filteredProjects = activeCategory === 'all'
+    ? projectsData
+    : projectsData.filter((project) => project.category === activeCategory);
+
+  // Lock body scroll when modal is open
   useEffect(() => {
-    if (activeCategory === 'all') {
-      setFilteredProjects(projectsData);
+    if (selectedProject) {
+      document.body.style.overflow = 'hidden';
     } else {
-      setFilteredProjects(
-        projectsData.filter(
-          (project) => project.category === activeCategory
-        )
-      );
+      document.body.style.overflow = '';
     }
-  }, [activeCategory]);
-
-  /* =======================
-     Project icons
-  ======================== */
-  const getProjectIcon = (iconName: string) => {
-    const icons: Record<string, React.ReactNode> = {
-      bloodlink: (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-          <path d="M12 5.67V21.23" />
-        </svg>
-      ),
-      terabia: (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <path d="M12 2v20" />
-          <circle cx="12" cy="12" r="6" />
-        </svg>
-      ),
-      smartschool: (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <path d="M22 10l-10-5-10 5 10 5 10-5z" />
-          <path d="M6 12v5c3 3 9 3 12 0v-5" />
-        </svg>
-      ),
-      topitoh: (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-          <polyline points="14 2 14 8 20 8" />
-        </svg>
-      ),
-      dermato: (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <circle cx="12" cy="12" r="5" />
-          <path d="M12 2v2M12 20v2M2 12h2M20 12h2" />
-        </svg>
-      )
+    return () => {
+      document.body.style.overflow = '';
     };
+  }, [selectedProject]);
 
-    return icons[iconName] || icons.bloodlink;
+  const getCategoryIcon = (category: string) => {
+    switch (category) {
+      case 'ui-ux':
+        return <Layers size={14} />;
+      case 'graphic-design':
+        return <Compass size={14} />;
+      case 'web-development':
+        return <Code2 size={14} />;
+      default:
+        return null;
+    }
   };
 
-  /* =======================
-     Category icons
-  ======================== */
-  const getCategoryIcon = (category: string) => {
-    const icons: Record<string, React.ReactNode> = {
-      fullstack: (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <rect x="2" y="3" width="20" height="14" rx="2" />
-        </svg>
-      ),
-      web: (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <circle cx="12" cy="12" r="10" />
-        </svg>
-      ),
-      mobile: (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <rect x="5" y="2" width="14" height="20" rx="2" />
-        </svg>
-      ),
-      design: (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <path d="M12 19l7-7 3 3-7 7-3-3z" />
-        </svg>
-      )
-    };
-
-    return icons[category] || icons.fullstack;
+  const getCategoryCount = (categoryId: ProjectCategory) => {
+    if (categoryId === 'all') return projectsData.length;
+    return projectsData.filter((p) => p.category === categoryId).length;
   };
 
   return (
-    <section id="projects" className="projects section" ref={sectionRef}>
+    <section id="projects" className={`projects section ${isVisible ? 'projects--visible' : ''}`} ref={sectionRef}>
       <div className="container">
-
-        {/* Header */}
-        <div className={`projects__header ${isVisible ? 'projects__header--visible' : ''}`}>
-          <span className="projects__subtitle">Mon Portfolio</span>
-          <h2 className="projects__title">Mes Projets</h2>
-          <div className="projects__divider" />
+        
+        {/* Editorial Section Header */}
+        <div className="section-header">
+          <div className="section-eyebrow">03 // SELECTED WORK & CASE STUDIES</div>
+          <h2 className="section-title">Crafted with Purpose & Precision</h2>
+          <p className="section-description">
+            A curated selection of digital products, clinical design systems, and visual communications engineered for real-world impact.
+          </p>
         </div>
 
-        {/* Filters */}
-        <div className={`projects__filters ${isVisible ? 'projects__filters--visible' : ''}`}>
-          {categories.map((category) => (
-            <button
-              key={category.id}
-              className={`projects__filter ${activeCategory === category.id ? 'projects__filter--active' : ''}`}
-              onClick={() => setActiveCategory(category.id)}
-            >
-              {category.id !== 'all' && getCategoryIcon(category.id)}
-              <span>{category.label}</span>
-            </button>
-          ))}
+        {/* Functional Category Filters */}
+        <div className="projects__filters-bar" role="tablist" aria-label="Project category filters">
+          {categories.map((cat) => {
+            const count = getCategoryCount(cat.id);
+            const isActive = activeCategory === cat.id;
+
+            return (
+              <button
+                key={cat.id}
+                role="tab"
+                aria-selected={isActive}
+                className={`projects__filter-btn ${isActive ? 'projects__filter-btn--active' : ''}`}
+                onClick={() => setActiveCategory(cat.id)}
+              >
+                <span className="projects__filter-icon">{getCategoryIcon(cat.id)}</span>
+                <span className="projects__filter-label">{cat.label}</span>
+                <span className="projects__filter-count">{count}</span>
+              </button>
+            );
+          })}
         </div>
 
-        {/* Grid */}
-        <div className="projects__grid">
-          {filteredProjects.map((project, index) => (
-            <div
-              key={project.id}
-              className={`projects__card ${isVisible ? 'projects__card--visible' : ''}`}
-              style={{ animationDelay: `${index * 0.1}s` }}
-              onClick={() => setSelectedProject(project)}
-            >
-              <div className="projects__card-image projects__card-image--icon">
-                <div className="projects__card-icon-wrapper">
-                  {getProjectIcon(project.image)}
+        {/* Editorial Showcase Gallery */}
+        <div className="projects__gallery">
+          {filteredProjects.map((project, index) => {
+            const isFeatured = project.featured && index === 0;
+
+            return (
+              <article
+                key={project.id}
+                className={`project-card ${isFeatured ? 'project-card--featured' : ''}`}
+                onClick={() => setSelectedProject(project)}
+              >
+                {/* Visual / Image Section */}
+                <div className="project-card__visual">
+                  {project.imageUrl ? (
+                    <img
+                      src={project.imageUrl}
+                      alt={project.title}
+                      className="project-card__image"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <div className={`project-card__mock project-card__mock--${project.category}`}>
+                      <div className="project-card__mock-header">
+                        <span className="project-card__mock-dot" />
+                        <span className="project-card__mock-title">{project.title}</span>
+                      </div>
+                      <div className="project-card__mock-body">
+                        <span className="project-card__mock-tagline">{project.tagline}</span>
+                        <div className="project-card__mock-wireframe">
+                          <div className="project-card__mock-bar" />
+                          <div className="project-card__mock-bar project-card__mock-bar--short" />
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Visual Overlay Tag */}
+                  <div className="project-card__badge-row">
+                    <span className="project-card__cat-badge">
+                      {getCategoryIcon(project.category)}
+                      <span>{project.categoryLabel}</span>
+                    </span>
+                    {project.status === 'in-progress' && (
+                      <span className="project-card__status-badge">In Development</span>
+                    )}
+                    {project.link && (
+                      <span className="project-card__status-badge project-card__status-badge--live">
+                        Live Site
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="project-card__hover-cue">
+                    <span>View Case Details</span>
+                    <Eye size={16} />
+                  </div>
                 </div>
-                {project.status === 'in-progress' && (
-                  <span className="projects__card-badge">En cours</span>
+
+                {/* Content Section */}
+                <div className="project-card__content">
+                  <div className="project-card__meta-bar">
+                    <span className="project-card__year">{project.year}</span>
+                    <span className="project-card__role">{project.role}</span>
+                  </div>
+
+                  <h3 className="project-card__title">
+                    <span>{project.title}</span>
+                    <ArrowUpRight size={18} className="project-card__title-arrow" />
+                  </h3>
+
+                  <p className="project-card__desc">{project.description}</p>
+
+                  {/* Technology Badges */}
+                  <div className="project-card__tags">
+                    {project.technologies.slice(0, 4).map((tech, i) => (
+                      <span key={i} className="project-card__tag">
+                        {tech}
+                      </span>
+                    ))}
+                    {project.technologies.length > 4 && (
+                      <span className="project-card__tag project-card__tag--more">
+                        +{project.technologies.length - 4}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+
+      </div>
+
+      {/* Project Deep Dive Modal */}
+      {selectedProject && (
+        <div 
+          className="project-modal__overlay" 
+          onClick={() => setSelectedProject(null)}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="modal-project-title"
+        >
+          <div 
+            className="project-modal__content" 
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Modal Close Button */}
+            <button 
+              className="project-modal__close" 
+              onClick={() => setSelectedProject(null)}
+              aria-label="Close project modal"
+            >
+              <X size={20} />
+            </button>
+
+            {/* Modal Media Showcase */}
+            <div className="project-modal__media">
+              {selectedProject.imageUrl ? (
+                <img
+                  src={selectedProject.imageUrl}
+                  alt={selectedProject.title}
+                  className="project-modal__image"
+                />
+              ) : (
+                <div className={`project-modal__fallback project-modal__fallback--${selectedProject.category}`}>
+                  <span className="project-modal__fallback-category">
+                    {selectedProject.categoryLabel}
+                  </span>
+                  <h3 className="project-modal__fallback-title">{selectedProject.title}</h3>
+                  <span className="project-modal__fallback-tagline">{selectedProject.tagline}</span>
+                </div>
+              )}
+            </div>
+
+            {/* Modal Details */}
+            <div className="project-modal__details">
+              
+              <div className="project-modal__header">
+                <div className="project-modal__eyebrow">
+                  <span className="tag-mono">{selectedProject.categoryLabel} // {selectedProject.year}</span>
+                  {selectedProject.status === 'in-progress' && (
+                    <span className="project-card__status-badge">In Development</span>
+                  )}
+                </div>
+
+                <h3 id="modal-project-title" className="project-modal__title">{selectedProject.title}</h3>
+                <div className="project-modal__tagline">{selectedProject.tagline}</div>
+              </div>
+
+              {/* Role & Year Specs */}
+              <div className="project-modal__specs">
+                <div className="project-modal__spec-item">
+                  <span className="project-modal__spec-label">Role:</span>
+                  <span className="project-modal__spec-value">{selectedProject.role}</span>
+                </div>
+                <div className="project-modal__spec-item">
+                  <span className="project-modal__spec-label">Timeline:</span>
+                  <span className="project-modal__spec-value">{selectedProject.year}</span>
+                </div>
+                {selectedProject.metrics && (
+                  <div className="project-modal__spec-item">
+                    <span className="project-modal__spec-label">Impact:</span>
+                    <span className="project-modal__spec-value">{selectedProject.metrics}</span>
+                  </div>
                 )}
               </div>
 
-              <div className="projects__card-content">
-                <h3 className="projects__card-title">{project.title}</h3>
-                <p className="projects__card-description">{project.description}</p>
+              {/* Comprehensive Description */}
+              <div className="project-modal__narrative">
+                <h4>Project Scope & Challenge</h4>
+                <p>{selectedProject.longDescription}</p>
               </div>
-            </div>
-          ))}
-        </div>
-      </div>
 
-      {/* Modal */}
-      {selectedProject && (
-        <div className="projects__modal" onClick={() => setSelectedProject(null)}>
-          <div className="projects__modal-content" onClick={(e) => e.stopPropagation()}>
-            <button className="projects__modal-close" onClick={() => setSelectedProject(null)}>
-              ✕
-            </button>
+              {/* Complete Tech / Tool Stack */}
+              <div className="project-modal__technologies">
+                <h4>Tools & Technologies</h4>
+                <div className="project-modal__tech-tags">
+                  {selectedProject.technologies.map((t, idx) => (
+                    <span key={idx} className="project-modal__tech-tag">
+                      <span className="project-modal__tech-dot" />
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              </div>
 
-            <div className="projects__modal-image projects__modal-image--icon">
-              {getProjectIcon(selectedProject.image)}
-            </div>
+              {/* Action Buttons */}
+              <div className="project-modal__actions">
+                {selectedProject.link && (
+                  <a
+                    href={selectedProject.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn btn--primary project-modal__action-btn"
+                  >
+                    <span>Launch Live Platform</span>
+                    <ExternalLink size={16} strokeWidth={2.2} />
+                  </a>
+                )}
 
-            <h3>{selectedProject.title}</h3>
-            <p>{selectedProject.longDescription}</p>
-
-            <div className="projects__modal-actions">
-              {selectedProject.link && (
-                <a
-                  href={selectedProject.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="projects__modal-btn projects__modal-btn--primary"
+                <button
+                  onClick={() => setSelectedProject(null)}
+                  className="btn btn--secondary project-modal__action-btn"
                 >
-                  Voir le projet
-                </a>
-              )}
+                  <span>Close Preview</span>
+                </button>
+              </div>
 
-              {selectedProject.github && (
-                <a
-                  href={selectedProject.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="projects__modal-btn projects__modal-btn--secondary"
-                >
-                  Code source
-                </a>
-              )}
             </div>
+
           </div>
         </div>
       )}

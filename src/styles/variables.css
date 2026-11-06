@@ -1,87 +1,113 @@
 :root {
-    /* Couleurs principales */
-    --primary: #3b82f6;
-    --primary-dark: #2563eb;
-    --primary-light: #60a5fa;
-    
-    --secondary: #8b5cf6;
-    --accent: #f59e0b;
-    
-    /* Couleurs de fond */
-    --bg-primary: #ffffff;
-    --bg-secondary: #f8fafc;
-    --bg-dark: #0f172a;
-    
-    /* Couleurs de texte */
-    --text-primary: #1e293b;
-    --text-secondary: #64748b;
-    --text-light: #94a3b8;
-    --text-dark: #0f172a;
-    
-    /* Bordures */
-    --border-color: #e2e8f0;
-    --border-radius: 8px;
-    --border-radius-lg: 16px;
-    
-    /* Ombres */
-    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-    
-    /* Espacements */
-    --spacing-xs: 0.5rem;
-    --spacing-sm: 1rem;
-    --spacing-md: 1.5rem;
-    --spacing-lg: 2rem;
-    --spacing-xl: 3rem;
-    --spacing-2xl: 4rem;
-    
-    /* Typographie */
-    --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    --font-code: 'Fira Code', 'Courier New', monospace;
-    
-    --font-size-xs: 0.75rem;
-    --font-size-sm: 0.875rem;
-    --font-size-base: 1rem;
-    --font-size-lg: 1.125rem;
-    --font-size-xl: 1.25rem;
-    --font-size-2xl: 1.5rem;
-    --font-size-3xl: 1.875rem;
-    --font-size-4xl: 2.25rem;
-    --font-size-5xl: 3rem;
-    
-    /* Transitions */
-    --transition-fast: 150ms ease-in-out;
-    --transition-base: 300ms ease-in-out;
-    --transition-slow: 500ms ease-in-out;
-    
-    /* Largeurs max */
-    --max-width-sm: 640px;
-    --max-width-md: 768px;
-    --max-width-lg: 1024px;
-    --max-width-xl: 1280px;
-    --max-width-2xl: 1536px;
-    
-    /* Z-index */
-    --z-dropdown: 1000;
-    --z-sticky: 1020;
-    --z-fixed: 1030;
-    --z-modal-backdrop: 1040;
-    --z-modal: 1050;
-    --z-popover: 1060;
-    --z-tooltip: 1070;
-  }
-  
-  /* Dark mode */
-  [data-theme="dark"] {
-    --bg-primary: #0f172a;
-    --bg-secondary: #1e293b;
-    --bg-dark: #020617;
-    
-    --text-primary: #f1f5f9;
-    --text-secondary: #cbd5e1;
-    --text-light: #94a3b8;
-    
-    --border-color: #334155;
-  }
+  /* ==========================================================================
+     OFFICIAL COLOR SYSTEM
+     ========================================================================== */
+  /* Primary Color — Electric Blue */
+  --color-primary: #365CFF;
+  --color-primary-hover: #2649e8;
+  --color-primary-light: rgba(54, 92, 255, 0.08);
+  --color-primary-glow: rgba(54, 92, 255, 0.25);
+  --color-primary-rgb: 54, 92, 255;
+
+  /* Secondary Color — Deep Graphite */
+  --color-secondary: #171A23;
+  --color-secondary-hover: #1e222e;
+  --color-secondary-dark: #0f1117;
+  --color-secondary-rgb: 23, 26, 35;
+
+  /* Tertiary Color — Acid Lime */
+  --color-accent: #D7F36A;
+  --color-accent-hover: #c4e350;
+  --color-accent-light: rgba(215, 243, 106, 0.16);
+  --color-accent-rgb: 215, 243, 106;
+
+  /* Supporting Colors */
+  --color-bg-base: #FFFFFF;
+  --color-bg-subtle: #F7F8FC;
+  --color-bg-elevated: #FFFFFF;
+  --color-text-main: #171A23;
+  --color-text-muted: #747987;
+  --color-text-dim: #9aa0b0;
+  --color-border: #E7EAF1;
+  --color-border-hover: #cfd4e2;
+  --color-pure-white: #FFFFFF;
+
+  /* Dark Sections System */
+  --color-dark-bg: #171A23;
+  --color-dark-surface: #1f2330;
+  --color-dark-border: rgba(255, 255, 255, 0.08);
+  --color-dark-text-main: #FFFFFF;
+  --color-dark-text-muted: #9aa0b0;
+
+  /* ==========================================================================
+     TYPOGRAPHY
+     ========================================================================== */
+  --font-heading: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  --text-xs: 0.75rem;     /* 12px */
+  --text-sm: 0.875rem;    /* 14px */
+  --text-base: 1rem;       /* 16px */
+  --text-lg: 1.125rem;    /* 18px */
+  --text-xl: 1.25rem;     /* 20px */
+  --text-2xl: 1.5rem;     /* 24px */
+  --text-3xl: 1.875rem;   /* 30px */
+  --text-4xl: 2.25rem;    /* 36px */
+  --text-5xl: 3rem;       /* 48px */
+  --text-6xl: 3.75rem;    /* 60px */
+  --text-7xl: 4.5rem;     /* 72px */
+
+  /* ==========================================================================
+     SPACING & LAYOUT
+     ========================================================================== */
+  --space-1: 0.25rem;   /* 4px */
+  --space-2: 0.5rem;    /* 8px */
+  --space-3: 0.75rem;   /* 12px */
+  --space-4: 1rem;      /* 16px */
+  --space-5: 1.25rem;   /* 20px */
+  --space-6: 1.5rem;    /* 24px */
+  --space-8: 2rem;      /* 32px */
+  --space-10: 2.5rem;   /* 40px */
+  --space-12: 3rem;     /* 48px */
+  --space-16: 4rem;     /* 64px */
+  --space-20: 5rem;     /* 80px */
+  --space-24: 6rem;     /* 96px */
+  --space-32: 8rem;     /* 128px */
+
+  --container-max-width: 1240px;
+  --container-narrow-width: 960px;
+
+  /* ==========================================================================
+     RADII & SHADOWS
+     ========================================================================== */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  --shadow-sm: 0 1px 2px rgba(23, 26, 35, 0.04);
+  --shadow-md: 0 4px 12px rgba(23, 26, 35, 0.06);
+  --shadow-lg: 0 12px 28px rgba(23, 26, 35, 0.08);
+  --shadow-xl: 0 20px 40px rgba(23, 26, 35, 0.12);
+  --shadow-glow: 0 0 24px rgba(54, 92, 255, 0.25);
+
+  /* ==========================================================================
+     TRANSITIONS
+     ========================================================================== */
+  --transition-fast: 160ms cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-base: 280ms cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-smooth: 450ms cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* ==========================================================================
+     Z-INDEX SYSTEM
+     ========================================================================== */
+  --z-background: 0;
+  --z-content: 1;
+  --z-sticky: 100;
+  --z-dropdown: 200;
+  --z-modal-backdrop: 500;
+  --z-modal: 600;
+}
