@@ -74,8 +74,15 @@ const Header: React.FC = () => {
           className="header__logo"
           onClick={(e) => handleNavClick(e, '#home')}
         >
-          <span className="header__logo-name">Stefan Mouope</span>
-          <span className="header__logo-badge">Design & Dev</span>
+          <div className="header__logo-mark" aria-hidden="true">
+            <span className="header__logo-s">S</span>
+            <span className="header__logo-m">M</span>
+            <span className="header__logo-dot" />
+          </div>
+          <div className="header__logo-text">
+            <span className="header__logo-name">Stefan Mouope</span>
+            <span className="header__logo-badge">Design & Dev</span>
+          </div>
         </a>
 
         {/* Desktop Navigation */}

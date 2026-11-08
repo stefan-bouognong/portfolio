@@ -68,6 +68,11 @@ const Footer: React.FC = () => {
           {/* Brand Identity Lockup */}
           <div className="footer__brand">
             <a href="#home" className="footer__logo" onClick={(e) => handleNavClick(e, '#home')}>
+              <div className="footer__logo-mark" aria-hidden="true">
+                <span className="footer__logo-s">S</span>
+                <span className="footer__logo-m">M</span>
+                <span className="footer__logo-dot" />
+              </div>
               <span className="footer__logo-name">Stefan Mouope</span>
             </a>
             <p className="footer__tagline">

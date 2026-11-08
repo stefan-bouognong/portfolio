@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <linearGradient id="sm-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#181A22"/>
+      <stop offset="100%" stop-color="#0F1116"/>
+    </linearGradient>
+    <linearGradient id="sm-blue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4D74FF"/>
+      <stop offset="100%" stop-color="#2B52F5"/>
+    </linearGradient>
+  </defs>
+  <!-- Background Squircle -->
+  <rect width="128" height="128" rx="28" fill="url(#sm-bg)"/>
+  <rect x="1" y="1" width="126" height="126" rx="27" stroke="rgba(255,255,255,0.08)" stroke-width="2" fill="none"/>
+  
+  <!-- S Monogram (Electric Blue) -->
+  <path d="M 54 44 C 54 34 45 28 36 28 C 25 28 18 35 18 45 C 18 55 26 59 34 62 L 38 64 C 47 67 54 72 54 81 C 54 91 45 98 34 98 C 23 98 16 90 16 80" 
+        fill="none" stroke="url(#sm-blue)" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- M Monogram (Pure White) -->
+  <path d="M 70 96 L 70 32 L 90 62 L 110 32 L 110 96" 
+        fill="none" stroke="#FFFFFF" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- Signature Acid Lime Accent Dot -->
+  <circle cx="112" cy="20" r="5" fill="#D7F36A"/>
+</svg>

@@ -32,6 +32,61 @@
   text-decoration: none;
 }
 
+.header__logo-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 34px;
+  height: 34px;
+  background: var(--color-secondary);
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 2px 8px rgba(23, 26, 35, 0.12);
+  transition: all var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.header__logo:hover .header__logo-mark {
+  transform: translateY(-1px);
+  border-color: var(--color-primary);
+  box-shadow: 0 4px 14px rgba(54, 92, 255, 0.25);
+}
+
+.header__logo-s {
+  font-family: var(--font-heading);
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: var(--color-primary);
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.header__logo-m {
+  font-family: var(--font-heading);
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: var(--color-pure-white);
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.header__logo-dot {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--color-accent);
+}
+
+.header__logo-text {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
 .header__logo-name {
   font-family: var(--font-heading);
   font-size: var(--text-lg);

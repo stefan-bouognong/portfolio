@@ -20,8 +20,58 @@
 
 .footer__logo {
   text-decoration: none;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
   margin-bottom: var(--space-3);
+}
+
+.footer__logo-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 38px;
+  height: 38px;
+  background: #0f1116;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  flex-shrink: 0;
+  transition: all var(--transition-fast);
+}
+
+.footer__logo:hover .footer__logo-mark {
+  border-color: var(--color-primary);
+  box-shadow: 0 4px 14px rgba(54, 92, 255, 0.25);
+  transform: translateY(-1px);
+}
+
+.footer__logo-s {
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--color-primary);
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.footer__logo-m {
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--color-pure-white);
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.footer__logo-dot {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--color-accent);
 }
 
 .footer__logo-name {
